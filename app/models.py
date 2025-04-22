@@ -6,4 +6,5 @@ class Listing(Base):
 
   id = Column(Integer, primary_key=True, index=True)
   title = Column(String, index=True)
-  description = Column(Float)
+  description = Column(String)
+  starting_bid = Column(Float)
