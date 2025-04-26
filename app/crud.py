@@ -3,7 +3,7 @@ from . import models, schemas
 
 def create_listing(db: Session, listing: schemas.ListingCreate):
 
-  db_listing = models.Listing(**listing.model.dump())
+  db_listing = models.Listing(**listing.model_dump())
   db.add(db_listing)
   db.commit()
   db.refresh(db_listing)
