@@ -25,3 +25,23 @@ def get_listing(listing_id: int, db: Session = Depends(get_db)):
   if not listing:
     raise HTTPException(status_code=404, detail="Listing not found")
   return listing
+
+@router.put("/listings/{listing_id}", response_model = schemas.Listing)
+def update_listing(
+  listing_id: int,
+  listing: schemas.ListingCreate,
+  db: Session = Depends(get_db)
+  ):
+
+  db_listing = db.query(models.Listing).filter(models.Listing.id == listing_id).first()
+  if not db_listing:
+    raise HTTPException(status_code=404, detail="Listing not found")
+  db_listing.title = listing.title
+  db_listing.description = listing.description
+  db_listing.starting_price = listing.starting_price
+
+  db.commit()
+  db.refresh(db_listing)
+
+  return db_listing
+
